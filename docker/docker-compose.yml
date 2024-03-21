@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  alura-mysql:
+    image: mysql:8.0
+    container_name: alura-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: alura
+      MYSQL_USER: alurauser
+      MYSQL_PASSWORD: alurapassword
+    ports:
+      - "3306:3306"
+    networks:
+      - local-network
+
+  alura-adminer:
+    image: adminer
+    container_name: alura-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - local-network
+
+networks:
+  local-network:
+    driver: bridge
