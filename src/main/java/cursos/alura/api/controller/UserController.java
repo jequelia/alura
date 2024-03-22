@@ -3,6 +3,7 @@ package cursos.alura.api.controller;
 import cursos.alura.api.domain.users.User;
 import cursos.alura.api.domain.users.UserDTO;
 import cursos.alura.api.domain.users.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public void userCreate(@RequestBody UserDTO userDTO){
+    public void userCreate(@RequestBody @Valid UserDTO userDTO){
         repository.save(new User(userDTO));
 
     }
