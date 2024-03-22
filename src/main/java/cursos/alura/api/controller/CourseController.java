@@ -36,7 +36,7 @@ public class CourseController {
     }
 
     @GetMapping("/{status}")
-    public ResponseEntity<Page<CourseListDTO>> listar(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao, @PathVariable Boolean status) {
+    public ResponseEntity<Page<CourseListDTO>> getListCourse(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao, @PathVariable Boolean status) {
        Page page = service.findAllCourse(paginacao, status);
         return ResponseEntity.ok(page);
     }
