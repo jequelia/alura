@@ -1,9 +1,10 @@
 package cursos.alura.api.controller;
 
+import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseCreateDTO;
-import cursos.alura.api.domain.course.CourseListDTO;
+import cursos.alura.api.domain.course.CourseDetailDTO;
 
-import cursos.alura.api.service.CourseService;
+import cursos.alura.api.domain.course.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("course")
@@ -22,10 +24,20 @@ public class CourseController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity userCreate(@RequestBody @Valid CourseCreateDTO courseCreateDTO){
-        service.createCourse(courseCreateDTO);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity userCreate(@RequestBody @Valid CourseCreateDTO courseCreateDTO, UriComponentsBuilder uriBuilder){
 
+        Course course = service.createCourse(courseCreateDTO);
+        var uri = uriBuilder.path("/course/{id}").buildAndExpand(course.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new CourseDetailDTO(course));
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getCourseById(@PathVariable Long courseId) {
+        var course = service.getCourseById(courseId);
+
+        return ResponseEntity.ok(new CourseDetailDTO(course));
     }
 
     @DeleteMapping("/{id}")
@@ -35,8 +47,8 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{status}")
-    public ResponseEntity<Page<CourseListDTO>> getListCourse(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao, @PathVariable Boolean status) {
+    @GetMapping("/status/{status}")
+    public ResponseEntity<Page<CourseDetailDTO>> getListCourse(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao, @PathVariable Boolean status) {
        Page page = service.findAllCourse(paginacao, status);
         return ResponseEntity.ok(page);
     }

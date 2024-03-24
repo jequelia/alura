@@ -1,11 +1,6 @@
-package cursos.alura.api.service;
+package cursos.alura.api.domain.course;
 
-import cursos.alura.api.configuration.exception.CourseNotFoundException;
 import cursos.alura.api.configuration.exception.UserNotInstructorException;
-import cursos.alura.api.domain.course.Course;
-import cursos.alura.api.domain.course.CourseCreateDTO;
-import cursos.alura.api.domain.course.CourseListDTO;
-import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.users.Role;
 import cursos.alura.api.domain.users.User;
 import cursos.alura.api.domain.users.UserRepository;
@@ -23,7 +18,7 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public void createCourse(CourseCreateDTO courseDTO)  {
+    public Course createCourse(CourseCreateDTO courseDTO)  {
         User userInstructor = userRepository.findByUserName(courseDTO.instructorUserName());
 
         if ( userInstructor == null || !Role.INSTRUTOR.equals(userInstructor.getRole())) {
@@ -33,6 +28,8 @@ public class CourseService {
         Course course = new Course(courseDTO);
         course.setInstructor(userInstructor);
         courseRepository.save(course);
+
+        return course;
     }
 
     public void deactivateCourse(Long courseId) {
@@ -42,6 +39,10 @@ public class CourseService {
     }
 
     public Page findAllCourse(Pageable paginacao, Boolean status) {
-        return courseRepository.findAllByStatus(paginacao, status).map(CourseListDTO::new);
+        return courseRepository.findAllByStatus(paginacao, status).map(CourseDetailDTO::new);
+    }
+
+    public Course getCourseById(Long courseId) {
+       return courseRepository.getReferenceById(courseId);
     }
 }
