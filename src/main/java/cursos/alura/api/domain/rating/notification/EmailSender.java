@@ -1,5 +1,6 @@
-package cursos.alura.api.util;
+package cursos.alura.api.domain.rating.notification;
 
+import cursos.alura.api.configuration.exception.SendEmailException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.rating.Rating;
 
@@ -27,7 +28,7 @@ public class EmailSender {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new SendEmailException( e.getMessage());
         }
 
     }

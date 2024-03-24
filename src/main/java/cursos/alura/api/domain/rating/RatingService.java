@@ -1,15 +1,13 @@
-package cursos.alura.api.service;
+package cursos.alura.api.domain.rating;
 
+import cursos.alura.api.configuration.exception.CalculateNpsException;
 import cursos.alura.api.configuration.exception.CourseNotFoundException;
+import cursos.alura.api.configuration.exception.CourseOrganizationByStudentQuantityException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
-import cursos.alura.api.domain.rating.Rating;
-import cursos.alura.api.domain.rating.RatingCourseNpsResultDTO;
-import cursos.alura.api.domain.rating.RatingCreateDTO;
-import cursos.alura.api.domain.rating.RatingRepository;
 import cursos.alura.api.domain.registration.Registration;
 import cursos.alura.api.domain.registration.RegistrationRepository;
-import cursos.alura.api.util.EmailSender;
+import cursos.alura.api.domain.rating.notification.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -127,7 +125,7 @@ public class RatingService {
                 studentsPerCourse.put(courseId, studentCount);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new CourseOrganizationByStudentQuantityException(e.getMessage());
         }
         return studentsPerCourse;
     }
@@ -137,17 +135,18 @@ public class RatingService {
         long totalResponses = promotersCount + neutralsCount + detractorsCount;
 
         double nps = 0;
-        if (totalResponses > 0) {
-            double promotersPercentage = (double) promotersCount / totalResponses;
-            double detractorsPercentage = (double) detractorsCount / totalResponses;
+        try {
+            if (totalResponses > 0) {
+                double promotersPercentage = (double) promotersCount / totalResponses;
+                double detractorsPercentage = (double) detractorsCount / totalResponses;
 
-            nps = (promotersPercentage - detractorsPercentage) * 100;
+                nps = (promotersPercentage - detractorsPercentage) * 100;
+            }
+        } catch (Exception e) {
+            throw new CalculateNpsException( e.getMessage());
         }
         return nps;
     }
-
-
-
 
 
 }
