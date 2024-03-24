@@ -73,6 +73,16 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(UserRegisteredInCourseException.class)
+    ProblemDetail handleUserRegisteredInCourseException(UserRegisteredInCourseException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        problemDetail.setTitle("Error when trying to enroll the user in the course");
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setProperty("StackTrace", e.getStackTrace());
+        problemDetail.setProperty("TimeStamp", Instant.now());
+        return problemDetail;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handlerError400(MethodArgumentNotValidException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());

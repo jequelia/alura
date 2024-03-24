@@ -28,7 +28,7 @@ public class RegistrationService {
         Course course = getCourse(courseId);
 
         if (registrationRepository.existsByUserIdAndCourseId(userId, courseId)) {
-            throw new IllegalStateException("User is already enrolled in this course.");
+            throw new UserRegisteredInCourseException("User is already enrolled in this course.");
         }
 
         Registration registration = new Registration();
