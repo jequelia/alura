@@ -1,9 +1,8 @@
 package cursos.alura.api.controller;
 
-import cursos.alura.api.domain.course.CourseListDTO;
 import cursos.alura.api.domain.rating.RatingCourseNpsResultDTO;
 import cursos.alura.api.domain.rating.RatingCreateDTO;
-import cursos.alura.api.service.RatingService;
+import cursos.alura.api.domain.rating.RatingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
