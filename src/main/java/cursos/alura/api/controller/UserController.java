@@ -32,8 +32,11 @@ public class UserController {
 
     @GetMapping("/userName/{userName}")
     public ResponseEntity<UserDetailsDTO> getUserByUserName(@PathVariable String userName) {
-        var UserDetailsDTO = repository.findByUserName(userName);
-        return ResponseEntity.ok(new UserDetailsDTO(UserDetailsDTO));
+        var userDetails = repository.findByUserName(userName);
+        if (userDetails == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new UserDetailsDTO(userDetails));
     }
 
     @GetMapping("/{id}")
