@@ -7,28 +7,25 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    @Query("SELECT r.registration.course.id, COUNT(r) FROM Rating r " +
-            "WHERE r.ratingNps BETWEEN 9 AND 10 " +
-            "GROUP BY r.registration.course.id")
-    List<Object[]> countPromotersPerCourse();
+    @Query("""
+            SELECT r.ratingNps
+            FROM Rating r
+            WHERE r.registration.course.id
+             = :courseId
+            
+            """)
+    List<Long> ratingForCourseById(@Param("courseId") Long courseId);
 
-    @Query("SELECT r.registration.course.id, COUNT(r) FROM Rating r " +
-            "WHERE r.ratingNps BETWEEN 0 AND 6 " +
-            "GROUP BY r.registration.course.id")
-    List<Object[]> countDetractorsPerCourse();
-
-    @Query("SELECT COUNT(r) FROM Rating r " +
-            "WHERE r.registration.course.id = :courseId " +
-            "AND r.ratingNps BETWEEN 9 AND 10")
-    Long countPromotersForCourse(@Param("courseId") Long courseId);
-
-    @Query("SELECT COUNT(r) FROM Rating r " +
-            "WHERE r.registration.course.id = :courseId " +
-            "AND r.ratingNps BETWEEN 0 AND 6")
-    Long countDetractorsForCourse(@Param("courseId") Long courseId);
-
+    @Query("""
+            SELECT r
+            FROM Rating r
+            WHERE r.registration.course.id = :idCourse AND r.registration.id = :idRegistration
+            """)
+    Optional<Rating> findByRegistrationIdAndCourseId( @Param("idRegistration")Long idRegistration,
+                                                      @Param("idCourse") Long idCourse);
 }

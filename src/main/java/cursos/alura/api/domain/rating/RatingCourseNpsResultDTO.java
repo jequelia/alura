@@ -16,6 +16,6 @@ public class RatingCourseNpsResultDTO {
     private int neutrals;
     private int detractors;
     private boolean hasEnoughRatings;
-    private double nps;
+    private String nps;
 
 }
