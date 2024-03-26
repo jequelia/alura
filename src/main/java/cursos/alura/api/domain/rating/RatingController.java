@@ -1,28 +1,29 @@
 package cursos.alura.api.domain.rating;
 
-import cursos.alura.api.domain.rating.RatingCourseNpsResultDTO;
-import cursos.alura.api.domain.rating.RatingCreateDTO;
-import cursos.alura.api.domain.rating.RatingService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("rating")
+@RequestMapping("/rating")
 @RequiredArgsConstructor
+@Tag(name = "Rating", description = "Operations related to rating")
 public class RatingController {
 
     private final RatingService service;
-
     @PostMapping
     @Transactional
-    @Operation(summary = "Save rating", description = "Save rating")
+    @PreAuthorize("hasAuthority('ROLE_ESTUDANTE')")
+    @Operation(summary = "Save rating", description = "Save rating",security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Void> saveRating(@RequestBody @Valid RatingCreateDTO ratingCreateDTO){
         service.saveRating(ratingCreateDTO);
         return ResponseEntity.noContent().build();
@@ -30,7 +31,8 @@ public class RatingController {
     }
 
     @GetMapping("/report")
-    @Operation(summary = "Report rating", description = "Report rating")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Operation(summary = "Report rating", description = "Report rating",security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Page<RatingCourseNpsResultDTO>> reportRating(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao) {
         Page<RatingCourseNpsResultDTO> page = service.reportRating(paginacao);
         if(page.getTotalElements() == 0){
@@ -40,7 +42,8 @@ public class RatingController {
     }
 
     @GetMapping("/report/{idCourse}")
-    @Operation(summary = "Report rating by course", description = "Report rating by course")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Operation(summary = "Report rating by course", description = "Report rating by course",security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<RatingCourseNpsResultDTO> reportRatingByIdCourse(@PathVariable Long idCourse) {
         RatingCourseNpsResultDTO ratingCourseNpsResultDTO = service.reportRatingByIdCourse(idCourse);
 

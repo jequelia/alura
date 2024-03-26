@@ -2,6 +2,7 @@ package cursos.alura.api.domain.users;
 
 import cursos.alura.api.configuration.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +13,11 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    private final PasswordEncoder encoder;
+
     public UserDetailsDTO createUser(UserCreateDTO userDTO) {
         User user = userMapper.userCreateDTOtoUser(userDTO);
+        user.setPassword(encoder.encode(user.getPassword()));
 
         if (repository.existsByUsername(user.getUsername()) || repository.existsByEmail(user.getEmail())) {
             throw new UserAlreadyExistsException("User already exists.");
