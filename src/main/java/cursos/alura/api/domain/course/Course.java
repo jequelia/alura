@@ -4,9 +4,7 @@ package cursos.alura.api.domain.course;
 import cursos.alura.api.domain.users.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedBy;
 
 import java.time.ZonedDateTime;
 

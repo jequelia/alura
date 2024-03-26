@@ -2,7 +2,6 @@ package cursos.alura.api.domain.course;
 
 import cursos.alura.api.configuration.exception.CourseNotFoundException;
 import cursos.alura.api.configuration.exception.CourserExistException;
-import cursos.alura.api.configuration.exception.UserNotFoundException;
 import cursos.alura.api.configuration.exception.UserNotInstructorException;
 import cursos.alura.api.domain.users.Role;
 import cursos.alura.api.domain.users.User;
@@ -42,7 +41,7 @@ public class CourseService {
 
     public void deactivateCourse(Long courseId) {
         var course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new UserNotFoundException("Course not found." ));
+                .orElseThrow(() -> new CourseNotFoundException("Course not found." ));
 
         course.setDeactivatedAt();
     }

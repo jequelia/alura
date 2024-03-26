@@ -16,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     ProblemDetail handleUserNotFoundException(UserNotFoundException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NO_CONTENT, e.getLocalizedMessage());
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         problemDetail.setTitle(e.getMessage());
         problemDetail.setDetail("User provided was not found in the database.");
         problemDetail.setProperty("TimeStamp", Instant.now());
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CourseNotFoundException.class)
     ProblemDetail handleCourseNotFoundException(CourseNotFoundException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NO_CONTENT, e.getLocalizedMessage());
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         problemDetail.setTitle(e.getMessage());
         problemDetail.setDetail("Course provided was not found in the database.");
         problemDetail.setProperty("TimeStamp", Instant.now());

@@ -6,17 +6,15 @@ import cursos.alura.api.configuration.exception.RatingException;
 import cursos.alura.api.configuration.exception.UserRegistrationInCourseException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
+import cursos.alura.api.domain.rating.notification.EmailSender;
 import cursos.alura.api.domain.registration.Registration;
 import cursos.alura.api.domain.registration.RegistrationRepository;
-import cursos.alura.api.domain.rating.notification.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
-import java.util.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor

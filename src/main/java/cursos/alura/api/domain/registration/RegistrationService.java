@@ -39,7 +39,7 @@ public class RegistrationService {
 
     private Course getCourse(Long courseId) {
         return courseRepository.findByIdAndStatus(courseId,true)
-                .orElseThrow(() -> new CourseNotFoundException("Unable to enroll in an inactive course: " + courseId));
+                .orElseThrow(() -> new CourseNotFoundException("Course deactivated or does not exist: " + courseId));
     }
 
     private User getUser(Long userId) {
