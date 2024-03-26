@@ -1,6 +1,7 @@
 package cursos.alura.api.domain.users;
 
 import cursos.alura.api.domain.users.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class UserController {
 
     @PostMapping
     @Transactional
+    @Operation(summary = "Create a user", description = "Create a user")
     public ResponseEntity<UserDetailsDTO> userCreate(@RequestBody @Valid UserCreateDTO userDTO, UriComponentsBuilder uriBuilder){
         UserDetailsDTO user = userService.createUser(userDTO);
 
@@ -28,6 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
+    @Operation(summary = "Get user by username", description = "Get user by username")
     public ResponseEntity<UserDetailsDTO> getUserByUsername(@PathVariable String username) {
         var user = userService.getUserByUsername(username);
         if (user == null) {
@@ -37,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "Get user by id", description = "Get user by id")
     public ResponseEntity<UserDetailsDTO> getUserById(@PathVariable Long userId) {
         var user = userService.getUserById(userId);
         if (user == null) {

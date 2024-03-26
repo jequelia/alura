@@ -1,5 +1,6 @@
 package cursos.alura.api.domain.course;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ public class CourseController {
 
     @PostMapping
     @Transactional
+    @Operation(summary = "Create a course", description = "Create a course")
     public ResponseEntity<CourseDetailDTO> userCreate(@RequestBody @Valid CourseCreateDTO courseCreateDTO, UriComponentsBuilder uriBuilder){
 
         CourseDetailDTO course = service.createCourse(courseCreateDTO);
@@ -29,6 +31,7 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
+    @Operation(summary = "Get course by id", description = "Get course by id")
     public ResponseEntity<CourseDetailDTO> getCourseById(@PathVariable Long courseId) {
         var course = service.getCourseById(courseId);
         if (course == null) {
@@ -39,12 +42,14 @@ public class CourseController {
 
     @DeleteMapping("/{courseId}")
     @Transactional
+    @Operation(summary = "Deactivate course", description = "Deactivate course")
     public ResponseEntity<Void> deactivateCourse(@PathVariable Long courseId) {
         service.deactivateCourse(courseId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/status/{status}")
+    @Operation(summary = "Get list of courses", description = "Get list of courses")
     public ResponseEntity<Page<CourseDetailDTO>> getListCourse(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao, @PathVariable Boolean status) {
        Page<CourseDetailDTO> page = service.findAllCourse(paginacao, status);
         if(page.getTotalElements() == 0){

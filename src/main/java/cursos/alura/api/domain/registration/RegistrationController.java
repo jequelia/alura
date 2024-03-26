@@ -1,6 +1,7 @@
 package cursos.alura.api.domain.registration;
 
 import cursos.alura.api.domain.registration.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class RegistrationController {
 
     @PostMapping("/{idUser}/{idCourse}")
     @Transactional
+    @Operation(summary = "Register user in course", description = "Register user in course")
     public ResponseEntity<RegistrationDetailDTO> registrationUserInCourse(@RequestBody @Valid RegistrationCreateDTO registrationCreateDTO, UriComponentsBuilder uriBuilder){
 
         Registration registration = service.registrationUserInCourse(registrationCreateDTO);
@@ -30,6 +32,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/{registrationId}")
+    @Operation(summary = "Get registration by id", description = "Get registration by id")
     public ResponseEntity<RegistrationDetailDTO> getRegistrationById(@PathVariable Long registrationId) {
         var registration = service.getRegistrationById(registrationId);
 

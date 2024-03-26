@@ -3,6 +3,7 @@ package cursos.alura.api.domain.rating;
 import cursos.alura.api.domain.rating.RatingCourseNpsResultDTO;
 import cursos.alura.api.domain.rating.RatingCreateDTO;
 import cursos.alura.api.domain.rating.RatingService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ public class RatingController {
 
     @PostMapping
     @Transactional
+    @Operation(summary = "Save rating", description = "Save rating")
     public ResponseEntity<Void> saveRating(@RequestBody @Valid RatingCreateDTO ratingCreateDTO){
         service.saveRating(ratingCreateDTO);
         return ResponseEntity.noContent().build();
@@ -28,6 +30,7 @@ public class RatingController {
     }
 
     @GetMapping("/report")
+    @Operation(summary = "Report rating", description = "Report rating")
     public ResponseEntity<Page<RatingCourseNpsResultDTO>> reportRating(@PageableDefault(size = 10, sort = {"name"}) Pageable paginacao) {
         Page<RatingCourseNpsResultDTO> page = service.reportRating(paginacao);
         if(page.getTotalElements() == 0){
@@ -37,6 +40,7 @@ public class RatingController {
     }
 
     @GetMapping("/report/{idCourse}")
+    @Operation(summary = "Report rating by course", description = "Report rating by course")
     public ResponseEntity<RatingCourseNpsResultDTO> reportRatingByIdCourse(@PathVariable Long idCourse) {
         RatingCourseNpsResultDTO ratingCourseNpsResultDTO = service.reportRatingByIdCourse(idCourse);
 
