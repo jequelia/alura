@@ -11,4 +11,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Optional<Course> findByIdAndStatus(Long courseId, boolean status);
 
+    Optional<Course> findByCode(String code);
 }

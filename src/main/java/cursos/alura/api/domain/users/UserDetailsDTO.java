@@ -1,6 +1,6 @@
 package cursos.alura.api.domain.users;
 
-public record UserDetailsDTO(String name, String email, Role role) {
+public record UserDetailsDTO(Long id,String name, String email, Role role) {
 
 
 }

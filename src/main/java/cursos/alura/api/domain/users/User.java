@@ -2,11 +2,12 @@ package cursos.alura.api.domain.users;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.ZonedDateTime;
 
 @Table(name = "users")
-@Entity(name = "User")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,22 +25,18 @@ public class User {
     private String email;
 
     @Column(name = "user_name", nullable = false, length = 20, unique = true)
-    private String userName;
+    private String username;
 
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
+    @CreationTimestamp
     @Column(name = "date_created", nullable = false)
     private ZonedDateTime dateCreated;
 
     @Column(name = "role", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @PrePersist
-    protected void onCreate() {
-        dateCreated = ZonedDateTime.now();
-    }
 
 
 }

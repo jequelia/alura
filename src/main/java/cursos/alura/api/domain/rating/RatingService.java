@@ -3,6 +3,7 @@ package cursos.alura.api.domain.rating;
 import cursos.alura.api.configuration.exception.CourseNotFoundException;
 import cursos.alura.api.configuration.exception.CourseOrganizationByStudentQuantityException;
 import cursos.alura.api.configuration.exception.RatingException;
+import cursos.alura.api.configuration.exception.UserRegistrationInCourseException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.registration.Registration;
@@ -29,11 +30,11 @@ public class RatingService {
     public void saveRating(RatingCreateDTO ratingCreateDTO) {
 
         if (!registrationRepository.existsByUserIdAndCourseId(ratingCreateDTO.idUser(), ratingCreateDTO.idCourse())) {
-            throw new IllegalStateException("User is already enrolled in this course.");
+            throw new UserRegistrationInCourseException("Registration for this user in the course was not found.");
         }
 
         Registration registration = registrationRepository.findRegistrationByUserIdAndCourseId(ratingCreateDTO.idUser(),ratingCreateDTO.idCourse())
-                .orElseThrow(() -> new CourseNotFoundException("Registration not found."));
+                .orElseThrow(() -> new UserRegistrationInCourseException("Registration not found."));
 
         ratingRepository.findRatingByRegistrationIdAndCourseId(registration.getId(), ratingCreateDTO.idCourse())
                 .ifPresent(rating -> {
@@ -72,10 +73,8 @@ public class RatingService {
         ratingCourseNpsResultDTO.setHasEnoughRatings(respondents >= 4);
 
 
-        var promotersList = ratingForCourseById.stream().filter(rating -> rating >= 9).toList();
-        var detractorsList = ratingForCourseById.stream().filter(rating -> rating < 6).toList();
-        var promoters = promotersList.size();
-        var detractors = detractorsList.size();
+        var promoters = ratingForCourseById.stream().filter(rating -> rating >= 9).count();
+        var detractors = ratingForCourseById.stream().filter(rating -> rating < 6).count();
 
         Double nps = ((double )promoters - detractors) / respondents * 100;
 

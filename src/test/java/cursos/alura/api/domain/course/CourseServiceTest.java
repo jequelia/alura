@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,10 +38,10 @@ class CourseServiceTest {
 
         CourseCreateDTO courseDTO = new CourseCreateDTO("programming", "prog", "joana", "test");
         User nonInstructor = new User();
-        nonInstructor.setUserName("joana");
+        nonInstructor.setUsername("joana");
         nonInstructor.setRole(Role.ESTUDANTE);
 
-        when(userRepository.findByUserName(anyString())).thenReturn(nonInstructor);
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(nonInstructor));
 
         assertThrows(UserNotInstructorException.class, () -> service.createCourse(courseDTO));
 
@@ -52,7 +54,7 @@ class CourseServiceTest {
 
         CourseCreateDTO courseDTO = new CourseCreateDTO("programming", "prog", "joana", "test");
         User istructor = new User();
-        istructor.setUserName("joana");
+        istructor.setUsername("joana");
         istructor.setRole(Role.INSTRUTOR);
 
         Course course = new Course();
@@ -61,7 +63,7 @@ class CourseServiceTest {
         course.setInstructor(istructor);
         course.setCode("test");
 
-        when(userRepository.findByUserName(anyString())).thenReturn(istructor);
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(istructor));
         when(courseMapper.courseCreateDTOtoCourse(courseDTO)).thenReturn(course);
 
         var result = service.createCourse(courseDTO);

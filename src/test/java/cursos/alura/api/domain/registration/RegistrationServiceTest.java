@@ -1,6 +1,6 @@
 package cursos.alura.api.domain.registration;
 
-import cursos.alura.api.configuration.exception.UserRegisteredInCourseException;
+import cursos.alura.api.configuration.exception.UserRegistrationInCourseException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.users.User;
@@ -36,7 +36,7 @@ class RegistrationServiceTest {
     void testRegistrationUserInCourseUserAlreadyRegistered() {
 
         User user = new User();
-        user.setUserName("joana");
+        user.setUsername("joana");
 
         Course course = new Course();
         course.setName("programming");
@@ -45,8 +45,9 @@ class RegistrationServiceTest {
         when(courseRepository.findByIdAndStatus(anyLong(), anyBoolean())).thenReturn(Optional.of(course));
         when(registrationRepository.existsByUserIdAndCourseId(anyLong(), anyLong())).thenReturn(true);
 
-        assertThrows(UserRegisteredInCourseException.class, () -> {
-            registrationService.registrationUserInCourse(1L, 1L);
+        assertThrows(UserRegistrationInCourseException.class, () -> {
+            RegistrationCreateDTO registrationCreateDTO = new RegistrationCreateDTO(1L, 1L);
+            registrationService.registrationUserInCourse(registrationCreateDTO);
         });
     }
 }

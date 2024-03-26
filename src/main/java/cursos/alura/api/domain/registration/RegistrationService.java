@@ -2,7 +2,7 @@ package cursos.alura.api.domain.registration;
 
 import cursos.alura.api.configuration.exception.CourseNotFoundException;
 import cursos.alura.api.configuration.exception.UserNotFoundException;
-import cursos.alura.api.configuration.exception.UserRegisteredInCourseException;
+import cursos.alura.api.configuration.exception.UserRegistrationInCourseException;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.users.User;
@@ -19,13 +19,13 @@ public class RegistrationService {
     private final UserRepository userRepository;
 
 
-    public Registration registrationUserInCourse(Long userId, Long courseId) {
+    public Registration registrationUserInCourse(RegistrationCreateDTO registrationCreateDTO) {
 
-        User user = getUser(userId);
-        Course course = getCourse(courseId);
+        User user = getUser(registrationCreateDTO.idUser());
+        Course course = getCourse(registrationCreateDTO.idCourse());
 
-        if (registrationRepository.existsByUserIdAndCourseId(userId, courseId)) {
-            throw new UserRegisteredInCourseException("User is already enrolled in this course.");
+        if (registrationRepository.existsByUserIdAndCourseId(user.getId(), course.getId())) {
+            throw new UserRegistrationInCourseException("User is already enrolled in this course.");
         }
 
         Registration registration = new Registration();
@@ -49,7 +49,7 @@ public class RegistrationService {
 
     public Registration getRegistrationById(Long registrationId) {
 
-        return registrationRepository.getReferenceById(registrationId);
+        return registrationRepository.findById(registrationId).orElse(null);
 
     }
 }

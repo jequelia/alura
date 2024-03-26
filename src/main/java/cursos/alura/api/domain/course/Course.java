@@ -4,10 +4,13 @@ package cursos.alura.api.domain.course;
 import cursos.alura.api.domain.users.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
 
 import java.time.ZonedDateTime;
 
-@Entity(name = "Course")
+@Entity
 @Table(name = "course")
 @Getter
 @Setter
@@ -34,23 +37,26 @@ public class Course {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+
     @Column(name = "status", nullable = false)
     private Boolean status;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private ZonedDateTime createdAt;
 
     @Column(name = "deactivated_at")
     private ZonedDateTime deactivatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = ZonedDateTime.now();
-        status = true;
-    }
-
     public void setDeactivatedAt() {
         this.deactivatedAt = ZonedDateTime.now();
         this.status = false;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.status == null) {
+            this.status = true;
+        }
     }
 }

@@ -71,7 +71,7 @@ class RatingRepositoryTest {
     private User createUser(String name, String userName, String email, String password, Role role) {
         var user = new User();
         user.setName(name);
-        user.setUserName(userName);
+        user.setUsername(userName);
         user.setEmail(email);
         user.setPassword(password);
         user.setRole(role);

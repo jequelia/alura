@@ -3,6 +3,7 @@ package cursos.alura.api.domain.rating;
 import cursos.alura.api.domain.registration.Registration;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -32,12 +33,8 @@ public class Rating {
     @Column(name = "feedback")
     private String feedback;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 
 }

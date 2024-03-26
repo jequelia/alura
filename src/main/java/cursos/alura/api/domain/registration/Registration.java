@@ -4,11 +4,13 @@ import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.users.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Table(name = "registration")
-@Entity(name = "Registration")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,23 +22,17 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
+    @CreationTimestamp
     @Column(name = "registration_at")
     private LocalDateTime registrationAt;
-
-    @PrePersist
-    protected void onCreate() {
-        registrationAt = LocalDateTime.now();
-    }
 
 
 }

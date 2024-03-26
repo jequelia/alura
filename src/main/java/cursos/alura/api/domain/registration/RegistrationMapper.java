@@ -13,7 +13,7 @@ public interface RegistrationMapper {
     @Mapping(target = "codeCourse", source = "registration.course.code")
     @Mapping(target = "userId", source = "registration.user.id")
     @Mapping(target = "nameStudent", source = "registration.user.name")
-    @Mapping(target = "userNameStudent", source = "registration.user.userName")
+    @Mapping(target = "usernameStudent", source = "registration.user.username")
     RegistrationDetailDTO registrationToRegistrationDetailDTO(Registration registration);
 
 }

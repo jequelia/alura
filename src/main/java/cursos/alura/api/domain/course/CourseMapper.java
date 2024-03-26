@@ -7,10 +7,10 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CourseMapper {
 
-    @Mapping(target = "instructor.userName", source = "dto.instructorUserName")
+    @Mapping(target = "instructor.username", source = "dto.instructorUsername")
     Course courseCreateDTOtoCourse(CourseCreateDTO dto);
 
-    @Mapping(target = "instructor", source = "course.instructor.userName")
+    @Mapping(target = "instructor", source = "course.instructor.username")
     CourseDetailDTO courseToCourseDetailDTO(Course course);
 
 }

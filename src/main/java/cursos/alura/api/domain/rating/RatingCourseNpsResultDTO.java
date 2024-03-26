@@ -12,9 +12,9 @@ import lombok.Setter;
 public class RatingCourseNpsResultDTO {
     private String codeCourse;
     private String courseName;
-    private int promoters;
-    private int neutrals;
-    private int detractors;
+    private long promoters;
+    private long neutrals;
+    private long detractors;
     private boolean hasEnoughRatings;
     private String nps;
 
