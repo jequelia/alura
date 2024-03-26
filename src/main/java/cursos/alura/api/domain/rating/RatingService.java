@@ -35,12 +35,12 @@ public class RatingService {
         Registration registration = registrationRepository.findRegistrationByUserIdAndCourseId(ratingCreateDTO.idUser(),ratingCreateDTO.idCourse())
                 .orElseThrow(() -> new CourseNotFoundException("Registration not found."));
 
-        ratingRepository.findByRegistrationIdAndCourseId(registration.getId(), ratingCreateDTO.idCourse())
+        ratingRepository.findRatingByRegistrationIdAndCourseId(registration.getId(), ratingCreateDTO.idCourse())
                 .ifPresent(rating -> {
                     throw new RatingException("Rating already exists.");
                 });
 
-        Rating entityRating = new Rating(ratingCreateDTO, registration);
+        Rating entityRating = ratingMapper.ratingCreateDTOtoRating(ratingCreateDTO, registration);
 
         Rating rating = ratingRepository.save(entityRating);
 

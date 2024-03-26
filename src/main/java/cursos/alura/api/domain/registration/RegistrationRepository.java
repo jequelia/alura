@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,9 +16,6 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     @Query("SELECT r FROM Registration r WHERE r.user.id = :userId AND r.course.id = :courseId")
     Optional<Registration> findRegistrationByUserIdAndCourseId(@Param("userId") Long userId, @Param("courseId") Long courseId);
-    @Query("SELECT r FROM Registration r WHERE r.course.id = :courseId")
-    Optional<Registration> findRegistrationByCourseId(@Param("courseId") Long courseId);
-
 
     @Query("""
             SELECT c

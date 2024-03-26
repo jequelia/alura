@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Page<Course> findAllByStatus(Pageable paginacao, Boolean status);
 
-    boolean existsByIdAndStatus(Long courseId, boolean status);
-
     Optional<Course> findByIdAndStatus(Long courseId, boolean status);
 
 }
