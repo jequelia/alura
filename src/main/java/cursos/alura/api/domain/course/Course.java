@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 @Entity(name = "Course")
 @Table(name = "course")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -26,6 +27,7 @@ public class Course {
     @Column(name = "code", nullable = false, length = 10, unique = true)
     private String code;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "instructor_id", nullable = false)
     private User instructor;
@@ -44,23 +46,8 @@ public class Course {
 
     @PrePersist
     protected void onCreate() {
-
         createdAt = ZonedDateTime.now();
         status = true;
-
-    }
-
-
-    public Course( CourseCreateDTO courseDTO){
-        this.name = courseDTO.name();
-        this.code = courseDTO.code();
-        this.description = courseDTO.description();
-    }
-
-
-
-    public void setInstructor(User userInstructor) {
-        this.instructor = userInstructor;
     }
 
     public void setDeactivatedAt() {

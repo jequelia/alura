@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "registration")
 @Entity(name = "Registration")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -19,10 +20,12 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
@@ -35,12 +38,5 @@ public class Registration {
         registrationAt = LocalDateTime.now();
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }
-
-    public void setCourse(Course course){
-        this.course = course;
-    }
 
 }

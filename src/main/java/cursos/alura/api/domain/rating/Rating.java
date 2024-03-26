@@ -2,17 +2,14 @@ package cursos.alura.api.domain.rating;
 
 import cursos.alura.api.domain.registration.Registration;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Table(name = "rating")
-@Entity(name = "Rating")
+@Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -43,13 +40,4 @@ public class Rating {
         createdAt = LocalDateTime.now();
     }
 
-
-    public Rating(RatingCreateDTO ratingCreateDTO, Registration registration){
-
-        this.registration = registration;
-        this.rating = ratingCreateDTO.rating();
-        this.ratingNps = ratingCreateDTO.ratingNps();
-        this.feedback = ratingCreateDTO.feedback();
-
-    };
 }

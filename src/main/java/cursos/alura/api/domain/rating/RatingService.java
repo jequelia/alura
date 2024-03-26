@@ -1,6 +1,5 @@
 package cursos.alura.api.domain.rating;
 
-import cursos.alura.api.configuration.exception.CalculateNpsException;
 import cursos.alura.api.configuration.exception.CourseNotFoundException;
 import cursos.alura.api.configuration.exception.CourseOrganizationByStudentQuantityException;
 import cursos.alura.api.configuration.exception.RatingException;
@@ -9,27 +8,23 @@ import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.registration.Registration;
 import cursos.alura.api.domain.registration.RegistrationRepository;
 import cursos.alura.api.domain.rating.notification.EmailSender;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class RatingService {
 
-    @Autowired
-    private RegistrationRepository registrationRepository;
-
-    @Autowired
-    private RatingRepository ratingRepository;
-    @Autowired
-    private CourseRepository courseRepository;
+    private final RegistrationRepository registrationRepository;
+    private final RatingRepository ratingRepository;
+    private final CourseRepository courseRepository;
+    private final RatingMapper ratingMapper;
 
     public void saveRating(RatingCreateDTO ratingCreateDTO) {
 
@@ -62,12 +57,10 @@ public class RatingService {
             throw new CourseOrganizationByStudentQuantityException("There are no courses with more than four records.");
         }
 
-        Page<RatingCourseNpsResultDTO> report = coursesWithMoreThanFourRecords.map(item -> mapPromotersAndDetractors(item));
-
-        return report;
+        return coursesWithMoreThanFourRecords.map(this::calculateNps);
     }
 
-    private RatingCourseNpsResultDTO mapPromotersAndDetractors(Course item) {
+    private RatingCourseNpsResultDTO calculateNps(Course item) {
 
         List<Long> ratingForCourseById = ratingRepository.ratingForCourseById(item.getId());
 
@@ -97,7 +90,7 @@ public class RatingService {
 
     public RatingCourseNpsResultDTO reportRatingByIdCourse(Long idCourse){
 
-        return mapPromotersAndDetractors(courseRepository.findById(idCourse)
+        return calculateNps(courseRepository.findById(idCourse)
                 .orElseThrow(() -> new CourseNotFoundException("Course not found.")));
 
     }

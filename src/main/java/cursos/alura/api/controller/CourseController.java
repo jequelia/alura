@@ -29,15 +29,14 @@ public class CourseController {
         Course course = service.createCourse(courseCreateDTO);
         var uri = uriBuilder.path("/course/{id}").buildAndExpand(course.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new CourseDetailDTO(course));
+        return ResponseEntity.created(uri).body(course);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getCourseById(@PathVariable Long courseId) {
         var course = service.getCourseById(courseId);
-
-        return ResponseEntity.ok(new CourseDetailDTO(course));
+        return ResponseEntity.ok(course);
     }
 
     @DeleteMapping("/{id}")

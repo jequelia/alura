@@ -1,16 +1,14 @@
 package cursos.alura.api.domain.users;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
 @Table(name = "users")
 @Entity(name = "User")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -43,11 +41,5 @@ public class User {
         dateCreated = ZonedDateTime.now();
     }
 
-    public User( UserCreateDTO userDTO){
-        this.name = userDTO.name();
-        this.userName = userDTO.userName();
-        this.password = userDTO.password();
-        this.role = userDTO.role();
-        this.email = userDTO.email();
-    }
+
 }

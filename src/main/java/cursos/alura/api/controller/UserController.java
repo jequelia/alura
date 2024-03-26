@@ -1,10 +1,6 @@
 package cursos.alura.api.controller;
 
-import cursos.alura.api.domain.registration.RegistrationDetailDTO;
-import cursos.alura.api.domain.users.User;
-import cursos.alura.api.domain.users.UserCreateDTO;
-import cursos.alura.api.domain.users.UserDetailsDTO;
-import cursos.alura.api.domain.users.UserRepository;
+import cursos.alura.api.domain.users.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +15,32 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @PostMapping
     @Transactional
     public ResponseEntity<UserDetailsDTO> userCreate(@RequestBody @Valid UserCreateDTO userDTO, UriComponentsBuilder uriBuilder){
-        User user = new User(userDTO);
+        User user = userMapper.userCreateDTOtoUser(userDTO);
         repository.save(user);
 
-        var uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UserDetailsDTO(user));
+        var uri = uriBuilder.path("/user/{userId}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(userMapper.userToUserDetailDTO(user));
 
     }
 
     @GetMapping("/userName/{userName}")
     public ResponseEntity<UserDetailsDTO> getUserByUserName(@PathVariable String userName) {
-        var userDetails = repository.findByUserName(userName);
-        if (userDetails == null) {
+        var user = repository.findByUserName(userName);
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new UserDetailsDTO(userDetails));
+        return ResponseEntity.ok(userMapper.userToUserDetailDTO(user));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{userId}")
     public ResponseEntity<UserDetailsDTO> getUserById(@PathVariable Long userId) {
-        var UserDetailsDTO = repository.findById(userId).orElseThrow();
-        return ResponseEntity.ok(new UserDetailsDTO(UserDetailsDTO));
+        var user = repository.findById(userId).orElseThrow();
+        return ResponseEntity.ok(userMapper.userToUserDetailDTO(user));
     }
 }

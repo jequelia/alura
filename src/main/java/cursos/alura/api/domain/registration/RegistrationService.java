@@ -7,19 +7,16 @@ import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.users.User;
 import cursos.alura.api.domain.users.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RegistrationService {
 
-    @Autowired
-    private RegistrationRepository registrationRepository;
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private UserRepository userRepository;
-
+    private final RegistrationRepository registrationRepository;
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
 
     public Registration registrationUserInCourse(Long userId, Long courseId) {
