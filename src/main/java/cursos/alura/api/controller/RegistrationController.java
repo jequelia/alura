@@ -27,13 +27,13 @@ public class RegistrationController {
 
         Registration registration = service.registrationUserInCourse(idUser, idCourse);
 
-        var uri = uriBuilder.path("/registration/{id}").buildAndExpand(registration.getId()).toUri();
+        var uri = uriBuilder.path("/registration/{registrationId}").buildAndExpand(registration.getId()).toUri();
 
         return ResponseEntity.created(uri).body(mapper.registrationToRegistrationDetailDTO(registration));
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{registrationId}")
     public ResponseEntity getRegistrationById(@PathVariable Long registrationId) {
         var registration = service.getRegistrationById(registrationId);
 

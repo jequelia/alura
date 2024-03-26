@@ -27,13 +27,13 @@ public class CourseController {
     public ResponseEntity userCreate(@RequestBody @Valid CourseCreateDTO courseCreateDTO, UriComponentsBuilder uriBuilder){
 
         Course course = service.createCourse(courseCreateDTO);
-        var uri = uriBuilder.path("/course/{id}").buildAndExpand(course.getId()).toUri();
+        var uri = uriBuilder.path("/course/{courseId}").buildAndExpand(course.getId()).toUri();
 
         return ResponseEntity.created(uri).body(course);
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{courseId}")
     public ResponseEntity getCourseById(@PathVariable Long courseId) {
         var course = service.getCourseById(courseId);
         return ResponseEntity.ok(course);
