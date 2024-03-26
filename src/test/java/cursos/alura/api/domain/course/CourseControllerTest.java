@@ -1,6 +1,5 @@
 package cursos.alura.api.domain.course;
 
-import cursos.alura.api.domain.course.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,10 +35,17 @@ class CourseControllerTest {
     private JacksonTester<Course> jsonCourse;
 
     @MockBean
+    private CourseRepository repository;
+
+    @MockBean
+    private CourseMapper courseMapper;
+
+    @MockBean
     private CourseService service;
 
     @Test
     @DisplayName("Should return BAD_REQUEST course no created")
+    @WithMockUser
     void testErrorCourseCreate() throws Exception {
         var response = mockMvc.perform(post("/course"))
                 .andReturn().getResponse();
@@ -47,6 +54,7 @@ class CourseControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("Should return course details when course is successfully created")
     void testSuccessfulUserCreation() throws Exception {
 
@@ -60,7 +68,6 @@ class CourseControllerTest {
                 null,
                 null
         );
-
 
         when(service.createCourse(any())).thenReturn(courseDetailDTO);
         when(service.getCourseById(any())).thenReturn(courseDetailDTO);

@@ -10,6 +10,7 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +34,7 @@ class UserControllerTest {
 
     @Test
     @DisplayName("Should return BAD_REQUEST user no created")
+    @WithMockUser
     void testErrorUserCreate() throws Exception {
         var response = mockMvc.perform(post("/user"))
                 .andReturn().getResponse();
@@ -56,7 +58,7 @@ class UserControllerTest {
                 ).andReturn().getResponse();
 
         var jsonReturn = jsonUserDetailsDTO.write(new UserDetailsDTO(
-                1L,
+                null,
                 "joana",
                 "joana@gmail.com",
                         Role.ESTUDANTE)).getJson();

@@ -5,16 +5,16 @@ import cursos.alura.api.domain.users.Role;
 import cursos.alura.api.domain.users.User;
 import cursos.alura.api.domain.users.UserRepository;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -53,6 +53,7 @@ class CourseServiceTest {
     void testCreateCourseSuccess() {
 
         CourseCreateDTO courseDTO = new CourseCreateDTO("programming", "prog", "joana", "test");
+        CourseDetailDTO courseDetailDTO = new CourseDetailDTO(1L, "programming", "prog", null, "test",true, ZonedDateTime.now(),null);
         User istructor = new User();
         istructor.setUsername("joana");
         istructor.setRole(Role.INSTRUTOR);
@@ -65,6 +66,7 @@ class CourseServiceTest {
 
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(istructor));
         when(courseMapper.courseCreateDTOtoCourse(courseDTO)).thenReturn(course);
+        when(courseMapper.courseToCourseDetailDTO(course)).thenReturn(courseDetailDTO);
 
         var result = service.createCourse(courseDTO);
 
