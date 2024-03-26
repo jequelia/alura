@@ -1,8 +1,6 @@
 package cursos.alura.api.controller;
 
-import cursos.alura.api.domain.course.CourseDetailDTO;
 import cursos.alura.api.domain.registration.Registration;
-import cursos.alura.api.domain.registration.RegistrationDetailDTO;
 import cursos.alura.api.domain.registration.RegistrationMapper;
 import cursos.alura.api.domain.registration.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;

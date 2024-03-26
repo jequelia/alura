@@ -2,7 +2,6 @@ package cursos.alura.api.domain.course;
 
 
 import cursos.alura.api.domain.users.User;
-import cursos.alura.api.domain.users.UserCreateDTO;
 import jakarta.persistence.*;
 import lombok.*;
 

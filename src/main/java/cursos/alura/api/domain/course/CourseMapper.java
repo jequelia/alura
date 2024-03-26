@@ -1,6 +1,5 @@
 package cursos.alura.api.domain.course;
 
-import cursos.alura.api.domain.users.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
