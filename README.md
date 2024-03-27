@@ -71,7 +71,7 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
     - [x] Roles de Usuário
 
 ## Fluxo da funcionalidade de NPS
-![Untitled-2024-03-26-2059.svg](..%2F..%2FDownloads%2FUntitled-2024-03-26-2059.svg)
+<img loading="lazy" src="https://r2.easyimg.io/k6ypam0pg/untitled-2024-03-26-2300.png" ><br>
 
 ## Como Autenticar-se na API usando o Swagger
 1. Crie um usuário através da rota `/user` com o seguinte payload:
