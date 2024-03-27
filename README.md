@@ -3,9 +3,9 @@
 Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para gerenciamento de cursos, matrículas, usuários e avaliações. A aplicação possui autenticação de usuários, autorização de rotas, geração de token JWT e documentação de API com Swagger. Além disso, a aplicação gera relatórios com o Net Promoter Score (NPS) de cada curso que tenha mais de quatro matrículas e o NPS por curso. 
 
 ## Tecnologias Utilizadas
-- Java 20+
+- Java 21
 - Maven
-- Spring Boot 3.0.0
+- Spring Boot 3.2.3
 - MySQL
 - Flyway (Ferramenta para versionamento de scripts SQL)
 - Swagger (Documentação de API)
@@ -71,12 +71,12 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
     - [x] Roles de Usuário
 
 ## Fluxo da funcionalidade de NPS
-<img loading="lazy" src="https://r2.easyimg.io/k6ypam0pg/untitled-2024-03-26-2300.png" ><br>
+<img loading="lazy" src="https://r2.easyimg.io/k6ypam0pg/untitled-2024-03-26-2300.png" width=100% ><br>
 
 ## Como Autenticar-se na API usando o Swagger
 1. Crie um usuário através da rota `/user` com o seguinte payload:
 
-<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/user.png" ><br>
+<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/user.png" width=100% ><br>
  - Restrições:
    - Username deve conter apenas caracteres minúsculos, sem numerais e sem espaços.
    - Precisa ser um endereço de e-mail em um formato válido.
@@ -95,7 +95,7 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
    - `ADMIN` - Pode criar cursos, matricular-se neles, desativa-los, consultar usuários e gerar relatórios.
    - `INSTRUTOR` - Pode matricular em um curso.
 2. Faça login na rota `/auth` com o seguinte payload:
-<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/auth.png" ><br>
+<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/auth.png" width=100% ><br>
 
 ```json
 {
@@ -104,13 +104,13 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
 }
 ```
 3. Copie o token gerado.
-<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/token.png" ><br>
+<img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/token.png" width=100% ><br>
 4. Clique no botão "Authorize" no canto superior direito da página do Swagger.
 <img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/auth-swagger.png" ><br>
 5. Cole o token no campo "Value" e clique em "Authorize".
 6. Agora você está autenticado e pode acessar todas as rotas da API.
 7. Para deslogar, clique no botão "Logout" no canto superior direito da página do Swagger.
-   <img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/auth-true.png" ><br>
+   <img loading="lazy" src="https://r2.easyimg.io/5h1y9uikb/auth-true.png" width=100% ><br>
 
 
 
