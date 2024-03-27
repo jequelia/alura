@@ -22,20 +22,26 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
 - Certifique-se de ter o JDK e o Maven instalados em seu sistema antes de continuar.
 
 1. Clone o repositório do GitHub para o seu computador.
+   ```bash
+   git clone https://github.com/jequelia/alura.git
+   ```
 
 2. Navegue até o diretório do projeto clonado.
     ```bash
     cd alura
     ```
-3. Execute o comando Maven para compilar o projeto.
-    ```bash
-    mvn clean install
-    ```
-4. Navegue até a pasta "docker" e execute o comando Docker Compose para iniciar o contêiner MySQL.
+3. Navegue até a pasta "docker" e execute o comando Docker Compose para iniciar o contêiner MySQL.
     ```bash
     cd docker
-    docker-compose up
+    docker-compose up -d
     ```
+   
+4. Execute o comando Maven para compilar o projeto.
+    ```bash
+    cd ..
+    mvn clean install
+    ```
+
 5. Após o contêiner MySQL ser iniciado, execute o aplicativo Spring Boot.
     ```bash
     mvn spring-boot:run
