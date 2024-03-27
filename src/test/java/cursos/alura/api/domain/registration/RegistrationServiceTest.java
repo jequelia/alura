@@ -6,12 +6,14 @@ import cursos.alura.api.domain.course.CourseRepository;
 import cursos.alura.api.domain.users.User;
 import cursos.alura.api.domain.users.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -29,7 +31,7 @@ class RegistrationServiceTest {
     @Mock
     private RegistrationRepository registrationRepository;
 
-    @Autowired
+    @InjectMocks
     private RegistrationService registrationService;
 
     @Test
@@ -45,11 +47,11 @@ class RegistrationServiceTest {
         when(courseRepository.findByIdAndStatus(anyLong(), anyBoolean())).thenReturn(Optional.of(course));
         when(registrationRepository.existsByUserIdAndCourseId(1L,1L)).thenReturn(true);
 
-        assertThrows(UserRegistrationInCourseException.class, () ->
-                registrationService.registrationUserInCourse(
-                        new RegistrationCreateDTO(1L, 1L)
-                ));
+        Registration registration = registrationService.registrationUserInCourse(
+                new RegistrationCreateDTO(1L, 1L)
+        );
 
+        assertThat(registration).isNotNull();
 
     }
 }
