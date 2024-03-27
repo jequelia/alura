@@ -100,7 +100,7 @@ Alura desafio é uma aplicação Java Spring Boot, que oferece recursos para ger
 ```json
 {
    "username": "maria",
-   "password": "123456
+   "password": "123456"
 }
 ```
 3. Copie o token gerado.
