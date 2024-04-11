@@ -1,12 +1,9 @@
 package cursos.alura.api.domain.rating;
 
-import cursos.alura.api.configuration.exception.CourseNotFoundException;
-import cursos.alura.api.configuration.exception.CourseOrganizationByStudentQuantityException;
-import cursos.alura.api.configuration.exception.RatingException;
-import cursos.alura.api.configuration.exception.UserRegistrationInCourseException;
+import cursos.alura.api.configuration.exception.*;
 import cursos.alura.api.domain.course.Course;
 import cursos.alura.api.domain.course.CourseRepository;
-import cursos.alura.api.domain.rating.notification.EmailSender;
+import cursos.alura.api.domain.notification.EmailSenderService;
 import cursos.alura.api.domain.registration.Registration;
 import cursos.alura.api.domain.registration.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +21,7 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final CourseRepository courseRepository;
     private final RatingMapper ratingMapper;
+    private final EmailSenderService emailSender;
 
     public void saveRating(RatingCreateDTO ratingCreateDTO) {
 
@@ -43,7 +41,7 @@ public class RatingService {
 
         Rating rating = ratingRepository.save(entityRating);
 
-        EmailSender.sendNegativeRatingEmail(rating);
+      emailSender.sendNegativeRatingEmail(rating);
 
     }
 
